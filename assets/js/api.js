@@ -1,6 +1,7 @@
-const apiKey = 'dc6zaTOxFJmzC';
-let search;
-let limit = 10;
+const apiKey = '&api_key=dc6zaTOxFJmzC';
+let search = `search?q=`;
+let limit = `&limit=10`;
+let url = `https://api.giphy.com/v1/gifs/`;
 
 
 
@@ -25,31 +26,18 @@ $(document).ready(() => {
                 if (allowedChar.indexOf(str[i]) > -1) newString[i] = str[i];
             }
         }
-        return newString.join('');
+        return search + newString.join('');
     };
-//TODO: create a new button from input text form and submit
-
-    $('#form').on('submit', (event) => {
-        event.preventDefault();
-        $('<button>').addClass('btn, btn-info tags').html(event.originalEvent.target[0].value).on('click', buttonClick).appendTo('.api-buttons');
-
-    });
-
-//TODO: layout buttons from array items
-
-    gifArr.forEach((gifSearch => {
-        $('<button>').addClass('btn, btn-info tags').html(gifSearch).appendTo('.api-buttons');
-    }));
 
     const buttonClick = function () {
-        search = encoder($(this).html());
-        console.log(search);
-        var xhr = $.get(`https://api.giphy.com/v1/gifs/search?q=${search}&api_key=${apiKey}&limit=${limit}`);
+        
+        thisSearch = encoder($(this).html());
+        var xhr = $.get(`${url}${thisSearch}${apiKey}${limit}`);
         xhr.done(data => { 
             $('.gif-imgs').empty();
             for (dataType in data) {
                 for (let i = 0; i < data[dataType].length; i++) {
-                    $('<div>').addClass('gif-imgs').html(`<img src="${data[dataType][i].images.original.url}">`).appendTo('.image');
+                    $('<div>').addClass('gif-imgs').html(`Rating: ${data[dataType][i].rating}<img src="${data[dataType][i].images.original.url}">`).appendTo('.image');
          
                 }
 
@@ -58,8 +46,28 @@ $(document).ready(() => {
         });
     };
 
+
+
+
+//TODO: layout buttons from array items
+
+    gifArr.forEach((gifSearch => {
+        $('<button>').addClass('btn, btn-info tags').html(gifSearch).on('click', buttonClick).appendTo('.api-buttons');
+        
+    }));
+
+    //TODO: create a new button from input text form and submit
+
+    $('#form').on('submit', (event) => {
+        event.preventDefault();
+        $('<button>').addClass('btn, btn-info tags').html(event.originalEvent.target[0].value).on('click', buttonClick).appendTo('.api-buttons');
+
+    });
+
+
+
     //TODO: create on click for buttons
-        $('.tags').on('click', buttonClick);
+        // $('.tags').on('click', buttonClick);
 
 
 
