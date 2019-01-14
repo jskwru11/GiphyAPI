@@ -27,39 +27,41 @@ $(document).ready(() => {
         }
         return newString.join('');
     };
+//TODO: create a new button from input text form and submit
+
+    $('#form').on('submit', (event) => {
+        event.preventDefault();
+        $('<button>').addClass('btn, btn-info tags').html(event.originalEvent.target[0].value).on('click', buttonClick).appendTo('.api-buttons');
+
+    });
 
 //TODO: layout buttons from array items
 
     gifArr.forEach((gifSearch => {
-        $('<button>').addClass('btn, btn-info tags').html(gifSearch).appendTo('.image');
+        $('<button>').addClass('btn, btn-info tags').html(gifSearch).appendTo('.api-buttons');
     }));
 
-    //TODO: create on click for buttons
-        $('.tags').on('click', function(event) {
-            search = encoder($(this).html());
-            console.log(search);
-            var xhr = $.get(`https://api.giphy.com/v1/gifs/search?q=${search}&api_key=${apiKey}&limit=${limit}`);
-            xhr.done(data => { 
-                // console.log(typeof(data.data));
-                $('.gif-imgs').empty();
-                for (dataType in data) {
-                    for (let i = 0; i < data[dataType].length; i++) {
-                        $('<div>').addClass('gif-imgs').html(`<img src="${data[dataType][i].images.original.url}">`).appendTo('.image');
-                        // console.log(data[dataType][i]);
-                    }
-                // console.log(data[dataType][0]);
-                    // $('.image').html(`<img src="${gif.url}">`).appendTo('body');
-                };
-                console.log("success got data", data); 
-            });
-        });
+    const buttonClick = function () {
+        search = encoder($(this).html());
+        console.log(search);
+        var xhr = $.get(`https://api.giphy.com/v1/gifs/search?q=${search}&api_key=${apiKey}&limit=${limit}`);
+        xhr.done(data => { 
+            $('.gif-imgs').empty();
+            for (dataType in data) {
+                for (let i = 0; i < data[dataType].length; i++) {
+                    $('<div>').addClass('gif-imgs').html(`<img src="${data[dataType][i].images.original.url}">`).appendTo('.image');
+         
+                }
 
-        $('#form').on('submit', (event) => {
-            event.preventDefault();
-            $('<button>').addClass('btn, btn-info tags').html(event.originalEvent.target[0].value).appendTo('.image');
-            // console.log(event.originalEvent.target[0].value);
-            // console.log(`submitted!: ${event[0].value}`);
+            };
+            console.log("success got data", data); 
         });
+    };
+
+    //TODO: create on click for buttons
+        $('.tags').on('click', buttonClick);
+
+
 
 
     //TODO: Build API.  steps needed
