@@ -1,16 +1,18 @@
-const apiKey = '&api_key=dc6zaTOxFJmzC';
-let search = `search?q=`;
-let limit = `&limit=10`;
-let url = `https://api.giphy.com/v1/gifs/`;
 
 
 
 
 $(document).ready(() => {
 
+    const apiKey = '&api_key=dc6zaTOxFJmzC';
+    let search = `search?q=`;
+    let limit = `&limit=10`;
+    let url = `https://api.giphy.com/v1/gifs/`;
+
+
     //TODO: create array for gif search data
 
-    let gifArr = ['lions', 'tigers', 'superman', 'deer', 'turkey', 'shark', 'mahi mahi', 'tuna', 'gorilla', 'dragon'];
+    let gifArr = ['lions', 'tigers', 'superman', 'deer', 'turkey', 'shark', 'mahi mahi', 'tuna', 'gorilla', 'dragon', 'supergirl'];
     let allowedChar = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 //TODO: create a function that will format query strings for api search: search?q=ryan+gosling&api_key=${apiKey}&limit=5
@@ -34,10 +36,20 @@ $(document).ready(() => {
         thisSearch = encoder($(this).html());
         var xhr = $.get(`${url}${thisSearch}${apiKey}${limit}`);
         xhr.done(data => { 
-            $('.gif-imgs').empty();
+            let running = false;
+            $('.image').empty();
             for (dataType in data) {
                 for (let i = 0; i < data[dataType].length; i++) {
-                    $('<div>').addClass('gif-imgs').html(`Rating: ${data[dataType][i].rating}<img src="${data[dataType][i].images.original.url}">`).appendTo('.image');
+                    $('<img>').attr('src', `${data[dataType][i].images.fixed_width.url}`).addClass('gifs').on('click', function() {
+                        if (!running) {
+                            running = !running;
+                            $(this).attr('src', `${data.data[i].images.fixed_width.url}`);
+                        } else {
+                            running = !running;
+                            $(this).attr('src', `${data.data[i].images.fixed_width_still.url}`);
+                        }
+                        
+                    }).appendTo('.image');
          
                 }
 
@@ -63,6 +75,14 @@ $(document).ready(() => {
         $('<button>').addClass('btn, btn-info tags').html(event.originalEvent.target[0].value).on('click', buttonClick).appendTo('.api-buttons');
 
     });
+
+    const test = function() {
+        console.log($(this));
+        $(this).attr('src', `${data[dataType][i].images.fixed_width_still.url}`);
+        console.log('i clicked stopped!');
+    };
+
+    $('.gif').on('click', test);
 
 
 
