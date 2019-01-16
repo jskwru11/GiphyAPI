@@ -57,6 +57,8 @@ $(document).ready(() => {
             }
 
             console.log("success got data", data); 
+        }).catch((error) => {
+            if (error) console.log(`You have encountered and error: ${error}`);
         });
     };
 
