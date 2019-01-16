@@ -28,3 +28,8 @@ html {
 .image-div {
     margin-bottom: 9rem;
 }
+
+caption {
+    font-weight: bolder;
+    width: 10rem;
+}

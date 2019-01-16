@@ -40,8 +40,8 @@ $(document).ready(() => {
             $('.image').empty();
             for (let i = 0; i < data.data.length; i++) {
                 let div = $('<div class="img-div">');
-                let label = $('<label>').text(`Rating: ${data.data[i].rating}`);
-                $(div).prepend(label);
+                let caption = $('<caption>').text(`Rating: ${data.data[i].rating}`);
+                $(div).prepend(caption);
                 $('<img class="gif">').attr('src', `${data.data[i].images.fixed_width.url}`).addClass('gifs').on('click', function() {
                     if (!running) {
                         running = !running;
