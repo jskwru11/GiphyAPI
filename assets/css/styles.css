@@ -2,10 +2,29 @@ html {
     font-size: 62.5%;
 }
 
-.image {
+.wrapper {
+    margin-bottom: 10rem;
+}
+
+.div-wrapper {
     display: flex;
+    justify-content: space-between;
 }
 
 .tags {
     margin: 1rem;
+}
+.image {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90rem;
+    margin-left: 3rem;
+}
+
+#form {
+    margin-right: 3rem;
+}
+
+.image-div {
+    margin-bottom: 9rem;
 }

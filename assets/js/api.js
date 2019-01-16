@@ -34,26 +34,28 @@ $(document).ready(() => {
     const buttonClick = function () {
         
         thisSearch = encoder($(this).html());
-        var xhr = $.get(`${url}${thisSearch}${apiKey}${limit}`);
-        xhr.done(data => { 
+        $.get(`${url}${thisSearch}${apiKey}${limit}`)
+            .then(data => { 
             let running = false;
             $('.image').empty();
-            for (dataType in data) {
-                for (let i = 0; i < data[dataType].length; i++) {
-                    $('<img>').attr('src', `${data[dataType][i].images.fixed_width.url}`).addClass('gifs').on('click', function() {
-                        if (!running) {
-                            running = !running;
-                            $(this).attr('src', `${data.data[i].images.fixed_width.url}`);
-                        } else {
-                            running = !running;
-                            $(this).attr('src', `${data.data[i].images.fixed_width_still.url}`);
-                        }
-                        
-                    }).appendTo('.image');
-         
-                }
+            for (let i = 0; i < data.data.length; i++) {
+                let div = $('<div class="img-div">');
+                let label = $('<label>').text(`Rating: ${data.data[i].rating}`);
+                $(div).prepend(label);
+                $('<img class="gif">').attr('src', `${data.data[i].images.fixed_width.url}`).addClass('gifs').on('click', function() {
+                    if (!running) {
+                        running = !running;
+                        $(this).attr('src', `${data.data[i].images.fixed_width.url}`);
+                    } else {
+                        running = !running;
+                        $(this).attr('src', `${data.data[i].images.fixed_width_still.url}`);
+                    }
+                    
+                }).appendTo(div);
+                $('.image').append(div);
+        
+            }
 
-            };
             console.log("success got data", data); 
         });
     };
